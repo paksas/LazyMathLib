@@ -27,13 +27,13 @@ LazyVector::LazyVector(const LazyVector& rhs) noexcept
    , y(rhs.y)
    , z(rhs.z)
 {
-   std::cout << "\tLazyVector::copy c'tor\n";
+   std::cout << "\tLazyVector::copy c'tor [" << x << ", " << y << ", " << z << "]\n";
 }
 
 LazyVector::LazyVector(LazyVector&& rhs) noexcept
 {
-   std::cout << "\tLazyVector::move c'tor\n";
    std::swap(this->v, rhs.v);
+   std::cout << "\tLazyVector::move c'tor [" << x << ", " << y << ", " << z << "]\n";
 }
 
 LazyVector::~LazyVector() noexcept
@@ -43,18 +43,18 @@ LazyVector::~LazyVector() noexcept
 
 LazyVector& LazyVector::operator=(const LazyVector& rhs) noexcept
 {
-   std::cout << "\tLazyVector::copy operator=\n";
    x = rhs.x;
    y = rhs.y;
    z = rhs.z;
+   std::cout << "\tLazyVector::copy operator= [" << x << ", " << y << ", " << z << "]\n";
    return *this;
 }
 
 LazyVector& LazyVector::operator=(LazyVector&& rhs) noexcept
 {
-   std::cout << "\tLazyVector::move operator=\n";
    std::swap(this->v, rhs.v);
 
+   std::cout << "\tLazyVector::move operator= [" << x << ", " << y << ", " << z << "]\n";
    return *this;
 }
 

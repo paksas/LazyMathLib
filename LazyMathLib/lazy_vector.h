@@ -35,10 +35,38 @@ struct LazyVector
 template<typename LArg, typename RArg>
 struct LazyVectorAdd
 {
-   explicit LazyVectorAdd(const LArg& rhs, const RArg& lhs) noexcept
+   explicit LazyVectorAdd(const LArg& lhs, const RArg& rhs) noexcept
       : m_lhs(lhs)
       , m_rhs(rhs)
    {
+      std::cout << "\tLazyVectorAdd::c'tor(" << m_lhs.toString() << ", " << m_rhs.toString() << ")\n";
+   }
+
+   LazyVectorAdd(const LazyVectorAdd<LArg, RArg>& rhs) noexcept
+      : m_lhs(rhs.m_lhs)
+      , m_rhs(rhs.m_rhs)
+   {
+      std::cout << "\tLazyVectorAdd::copy c'tor(" << m_lhs.toString() << ", " << m_rhs.toString() << ")\n";
+   }
+
+   LazyVectorAdd(LazyVectorAdd<LArg, RArg>&& rhs) noexcept
+      : m_lhs(std::move(rhs.m_lhs))
+      , m_rhs(std::move(rhs.m_rhs))
+   {
+      std::cout << "\tLazyVectorAdd::move c'tor(" << m_lhs.toString() << ", " << m_rhs.toString() << ")\n";
+   }
+
+   ~LazyVectorAdd() noexcept
+   {
+      std::cout << "\tLazyVectorAdd::d'tor\n";
+   }
+
+   std::string toString() const
+   {
+      char tmpStr[1024];
+      sprintf_s(tmpStr, "%s + %s", m_rhs.toString().c_str(), m_lhs.toString().c_str());
+      return std::string{ tmpStr };
+
    }
 
    operator LazyVector() noexcept
@@ -54,12 +82,14 @@ struct LazyVectorAdd
          rhs.z + lhs.z };
    }
 
-   LArg m_rhs;
-   RArg m_lhs;
+   LArg m_lhs;
+   RArg m_rhs;
 };
 
 template<typename LArg, typename RArg>
-auto operator+(const LArg& lhs, const RArg& rhs) noexcept -> decltype(LazyVectorAdd<LArg, RArg>(lhs, rhs))
+decltype(auto) operator+(LArg&& lhs, RArg&& rhs) noexcept
 {
-   return LazyVectorAdd<LArg, RArg>(lhs, rhs);
+   std::cout << "\toperator+\n";
+
+   return LazyVectorAdd<LArg, RArg>(std::forward<LArg>(lhs), std::forward<RArg>(rhs));
 }

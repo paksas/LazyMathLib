@@ -30,11 +30,17 @@ int main()
       log("auto x2 = x1 + c;");
       auto x2 = x1 + c;
 
-      log("auto x3 = a + x2 + b;");
+      log("auto x3 = a + b + c;");
+      auto x3 = a + b + c;
+
+      log("auto x = static_cast<LazyVector>(x2);");
+      auto y = static_cast<LazyVector>(x2);
+
+      /*log("auto x3 = a + x2 + b;");
       auto x3 = a + x2 + b;
 
       log("auto x = static_cast<LazyVector>(x3);");
-      auto y = static_cast<LazyVector>(x3);
+      auto y = static_cast<LazyVector>(x3);*/
 
       log("std::cout << y.toString();");
       std::cout << y.toString() << "\n";
