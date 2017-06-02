@@ -35,9 +35,9 @@ struct LazyVector
 template<typename LArg, typename RArg>
 struct LazyVectorAdd
 {
-   explicit LazyVectorAdd(const LArg& lhs, const RArg& rhs) noexcept
-      : m_lhs(lhs)
-      , m_rhs(rhs)
+   explicit LazyVectorAdd(LArg&& lhs, RArg&& rhs) noexcept
+      : m_lhs(std::move(lhs))
+      , m_rhs(std::move(rhs))
    {
       std::cout << "\tLazyVectorAdd::c'tor(" << m_lhs.toString() << ", " << m_rhs.toString() << ")\n";
    }
@@ -58,7 +58,7 @@ struct LazyVectorAdd
 
    ~LazyVectorAdd() noexcept
    {
-      std::cout << "\tLazyVectorAdd::d'tor\n";
+      std::cout << "\tLazyVectorAdd::d'tor(" << m_lhs.toString() << ", " << m_rhs.toString() << ")\n";
    }
 
    std::string toString() const
