@@ -66,15 +66,14 @@ struct LazyVectorAdd
       char tmpStr[1024];
       sprintf_s(tmpStr, "%s + %s", m_rhs.toString().c_str(), m_lhs.toString().c_str());
       return std::string{ tmpStr };
-
    }
 
    operator LazyVector() noexcept
    {
       std::cout << "\tLazyVectorAdd::evaluate\n";
 
-      auto lhs = static_cast<LazyVector>(m_lhs);
-      auto rhs = static_cast<LazyVector>(m_rhs);
+      LazyVector&& lhs = static_cast<LazyVector&&>(m_lhs);
+      LazyVector&& rhs = static_cast<LazyVector&&>(m_rhs);
 
       return LazyVector{
          rhs.x + lhs.x,
@@ -84,6 +83,7 @@ struct LazyVectorAdd
 
    LArg m_lhs;
    RArg m_rhs;
+
 };
 
 template<typename LArg, typename RArg>

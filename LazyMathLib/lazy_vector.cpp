@@ -8,18 +8,19 @@ LazyVector::LazyVector() noexcept
    , y(0.0)
    , z(0.0)
 {
-   std::cout << "\tLazyVector::c'tor\n";
+   std::cout << "\tLazyVector::c'tor [0, 0, 0]\n";
 }
 
 LazyVector::LazyVector(const std::initializer_list<double>& v) noexcept
 {
-   std::cout << "\tLazyVector::c'tor initializer_list\n";
-
    auto numInputComponents = static_cast<int>(std::distance(v.begin(), v.end()));
    auto numComponentsToCopy = std::min(3, numInputComponents);
 
    std::copy_n(v.begin(), numComponentsToCopy, this->v);
    std::fill(this->v + numComponentsToCopy, this->v + 3, 0.0);
+
+   std::cout << "\tLazyVector::c'tor initializer_list [" << x << ", " << y << ", " << z << "]\n";
+
 }
 
 LazyVector::LazyVector(const LazyVector& rhs) noexcept
@@ -38,7 +39,7 @@ LazyVector::LazyVector(LazyVector&& rhs) noexcept
 
 LazyVector::~LazyVector() noexcept
 {
-   std::cout << "\tLazyVector::d'tor\n";
+   std::cout << "\tLazyVector::d'tor [" << x << ", " << y << ", " << z << "]\n";
 }
 
 LazyVector& LazyVector::operator=(const LazyVector& rhs) noexcept
